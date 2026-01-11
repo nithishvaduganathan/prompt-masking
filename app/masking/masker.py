@@ -70,7 +70,7 @@ class PromptMasker:
         ]
         
         # Personal information patterns
-        self.age_pattern = r'\b(?:age|aged|year old|years old|yr old|yrs old)[\s:]+(\d{1,3})\b|\b(\d{1,3})[\s-]?(?:year|yr)[\s-]?old\b'
+        self.age_pattern = r'\b(?:age|aged)[\s:]+(\d{1,3})\b|\b(\d{1,3})[\s-]?(?:year|yr)s?[\s-]?old\b'
         self.gender_pattern = r'\b(male|female|man|woman|boy|girl|transgender|non-binary|gender)\b'
         
         # Location patterns (cities, states, countries)
