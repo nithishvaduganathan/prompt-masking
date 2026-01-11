@@ -4,4 +4,4 @@ python-dotenv==1.0.0
 spacy==3.7.2
 openai==1.6.1
 requests==2.31.0
-gunicorn==21.2.0
+gunicorn==22.0.0

@@ -171,7 +171,7 @@ Backend:
 - Python 3.8+ - Core language
 - flask-cors 4.0.0 - CORS support
 - python-dotenv 1.0.0 - Environment config
-- Gunicorn 21.2.0 - Production server
+- Gunicorn 22.0.0 - Production server (security patched)
 
 NLP/AI:
 - spaCy 3.7.2 - Named entity recognition (optional)
