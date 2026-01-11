@@ -74,7 +74,41 @@ class PromptMasker:
         self.gender_pattern = r'\b(male|female|man|woman|boy|girl|transgender|non-binary|gender)\b'
         
         # Location patterns (cities, states, countries)
-        self.location_pattern = r'\b(New York|Los Angeles|Chicago|Houston|Phoenix|Philadelphia|San Antonio|San Diego|Dallas|San Jose|Austin|Jacksonville|Fort Worth|Columbus|Indianapolis|Charlotte|San Francisco|Seattle|Denver|Washington|Boston|Nashville|Baltimore|Oklahoma City|Louisville|Portland|Las Vegas|Milwaukee|Albuquerque|Tucson|Fresno|Sacramento|Kansas City|Mesa|Atlanta|Omaha|Colorado Springs|Raleigh|Miami|Long Beach|Virginia Beach|Oakland|Minneapolis|Tulsa|Tampa|Arlington|New Orleans|Wichita|Cleveland|Bakersfield|Aurora|Anaheim|Honolulu|Santa Ana|Riverside|Corpus Christi|Lexington|Stockton|Henderson|Saint Paul|St. Paul|Cincinnati|St. Louis|Pittsburgh|Greensboro|Lincoln|Anchorage|Plano|Orlando|Irvine|Newark|Durham|Chula Vista|Toledo|Fort Wayne|St. Petersburg|Laredo|Jersey City|Chandler|Madison|Lubbock|Scottsdale|Reno|Buffalo|Gilbert|Glendale|North Las Vegas|Winston-Salem|Chesapeake|Norfolk|Fremont|Garland|Irving|Hialeah|Richmond|Boise|Spokane|Baton Rouge)\b|\b(California|Texas|Florida|New York|Pennsylvania|Illinois|Ohio|Georgia|North Carolina|Michigan|Alabama|Alaska|Arizona|Arkansas|Colorado|Connecticut|Delaware|Hawaii|Idaho|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|North Dakota|Oklahoma|Oregon|Rhode Island|South Carolina|South Dakota|Tennessee|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming)\b|\b(USA|United States|America|UK|United Kingdom|England|Canada|Australia|Germany|France|Italy|Spain|India|China|Japan|Mexico|Brazil)\b'
+        # Build location pattern from lists for better maintainability
+        major_us_cities = [
+            'New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia',
+            'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'Austin', 'Jacksonville',
+            'Fort Worth', 'Columbus', 'Indianapolis', 'Charlotte', 'San Francisco',
+            'Seattle', 'Denver', 'Washington', 'Boston', 'Nashville', 'Baltimore',
+            'Oklahoma City', 'Louisville', 'Portland', 'Las Vegas', 'Milwaukee',
+            'Albuquerque', 'Tucson', 'Fresno', 'Sacramento', 'Kansas City', 'Mesa',
+            'Atlanta', 'Omaha', 'Colorado Springs', 'Raleigh', 'Miami', 'Long Beach',
+            'Virginia Beach', 'Oakland', 'Minneapolis', 'Tulsa', 'Tampa', 'Arlington',
+            'New Orleans'
+        ]
+        
+        us_states = [
+            'California', 'Texas', 'Florida', 'New York', 'Pennsylvania', 'Illinois',
+            'Ohio', 'Georgia', 'North Carolina', 'Michigan', 'Alabama', 'Alaska',
+            'Arizona', 'Arkansas', 'Colorado', 'Connecticut', 'Delaware', 'Hawaii',
+            'Idaho', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine',
+            'Maryland', 'Massachusetts', 'Minnesota', 'Mississippi', 'Missouri',
+            'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
+            'New Mexico', 'North Dakota', 'Oklahoma', 'Oregon', 'Rhode Island',
+            'South Carolina', 'South Dakota', 'Tennessee', 'Utah', 'Vermont',
+            'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+        ]
+        
+        countries = [
+            'USA', 'United States', 'America', 'UK', 'United Kingdom', 'England',
+            'Canada', 'Australia', 'Germany', 'France', 'Italy', 'Spain', 'India',
+            'China', 'Japan', 'Mexico', 'Brazil'
+        ]
+        
+        # Combine all locations into pattern
+        all_locations = major_us_cities + us_states + countries
+        location_pattern_str = '|'.join(all_locations)
+        self.location_pattern = r'\b(' + location_pattern_str + r')\b'
         
         # Counter for generating unique placeholders
         self.counters = {

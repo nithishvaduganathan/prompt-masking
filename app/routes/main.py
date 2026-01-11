@@ -1,23 +1,22 @@
-"""
-Flask Routes for Privacy-Preserving Chatbot API
-"""
-
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template, session
 from app.masking import mask_prompt, unmask_response
 from app.llm_client import get_llm_client
 from typing import Dict, Any
 import traceback
+import uuid
 
 # Create Blueprint
 main_bp = Blueprint('main', __name__)
-
-# Store session mappings (in production, use proper session management or database)
-session_mappings = {}
 
 
 @main_bp.route('/')
 def index():
     """Render the main chatbot interface"""
+    # Initialize session if needed
+    if 'session_id' not in session:
+        session['session_id'] = str(uuid.uuid4())
+    if 'mappings' not in session:
+        session['mappings'] = {}
     return render_template('index.html')
 
 
@@ -54,16 +53,17 @@ def chat():
             }), 400
         
         original_message = data['message']
-        session_id = data.get('session_id', 'default')
+        session_id = data.get('session_id', session.get('session_id', 'default'))
         use_spacy = data.get('use_spacy', False)
         
         # Step 1: Mask the prompt
         masking_result = mask_prompt(original_message, use_spacy=use_spacy)
         
-        # Store mappings for this session
-        if session_id not in session_mappings:
-            session_mappings[session_id] = {}
-        session_mappings[session_id].update(masking_result.mappings)
+        # Store mappings in session (server-side, more secure)
+        if 'mappings' not in session:
+            session['mappings'] = {}
+        session['mappings'].update(masking_result.mappings)
+        session.modified = True
         
         # Step 2: Send masked prompt to LLM
         llm_client = get_llm_client(use_simulation=True)

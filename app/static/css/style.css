@@ -367,12 +367,8 @@ body {
     background-clip: text;
 }
 
-/* Smooth Animations */
-* {
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-button, .btn {
+/* Smooth Animations - applied to specific interactive elements */
+button, .btn, .card, .message {
     transition: all 0.3s ease;
 }
 
